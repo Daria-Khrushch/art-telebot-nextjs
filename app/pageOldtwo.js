@@ -29,9 +29,13 @@ const Home = () => {
 
     useEffect(() => {
     const getData = async () => {
-      const res = await fetch(`/api/cards`);
+      try {
+        const res = await fetch(`/api/cards`);
       const data = await res.json();
       setChannels(data);
+      } catch (error) {
+        console.log(error)
+      }
     };
     getData();
   }, []);

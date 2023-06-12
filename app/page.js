@@ -26,11 +26,15 @@ const Home = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch(
+    try {
+        const res = await fetch(
         `/api/search/?theme=${searchTheme}&language=${searchLang}&title=${searchQuery}`
       );
       const data = await res.json();
       setChannels(data);
+    } catch (error) {
+      console.log(error)
+    }
     };
     getData();
   }, [searchTitle, searchTheme, searchLang]);
