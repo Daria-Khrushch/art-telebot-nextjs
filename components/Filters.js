@@ -34,7 +34,7 @@ export default function Filters({ channels, setSearchQuery, onSearch, searchQuer
           />
         </button>
       </div> */}
-      <form onSubmit={onSearch} className="by_title">
+      <form id="search" onSubmit={onSearch} className="by_title">
         <input
           value={searchQuery || ""}
           onChange={(event) => setSearchQuery(event.target.value)}

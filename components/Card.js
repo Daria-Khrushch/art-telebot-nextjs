@@ -167,7 +167,7 @@ const Card = ({ channel }) => {
           Спасибо за ваш интерес к рекламе в нашем телеграм-канале! Пожалуйста,
           оставьте свои данные ниже, и мы свяжемся с вами в ближайшее время:
         </h3>
-        <form onSubmit={handleSubmit} className="modal-form">
+        <form id="buyer-modal-form" onSubmit={handleSubmit} className="modal-form">
           <label className="modal-label">
             Ваше имя:
             <input

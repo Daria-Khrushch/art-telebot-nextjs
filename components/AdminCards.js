@@ -182,7 +182,7 @@ const AdminCards = ({ channel }) => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-              <form onSubmit={handleSubmit} className="modal-form">
+              <form id="admin-modal-form" onSubmit={handleSubmit} className="modal-form">
                   
           <label className="modal-label">
             Название:
