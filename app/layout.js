@@ -10,7 +10,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="ru">
-      <link rel="icon" href="./assets/images/logo.png" sizes="any" />
+      <link rel="icon" href="./favicon.ico" sizes="any" />
       <body>
         <Providers>
           <main>
