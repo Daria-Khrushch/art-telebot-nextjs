@@ -2,8 +2,9 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
+import moment from "moment";
 
-const AdminCards = ({ channel }) => {
+const RemovedCard = ({ channel }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [format, setFormat] = useState("1/24");
   const [price, setPrice] = useState(0);
@@ -15,8 +16,8 @@ const AdminCards = ({ channel }) => {
   const [description, setDescription] = useState(channel.description);
   const [subscribers, setSubscribers] = useState(channel.subscribers);
   const [views, setViews] = useState(channel.views);
-  const [shown, setShown] = useState(1);
   const [cpv, setCpv] = useState(channel.cpv);
+  const [shown, setShown] = useState(1);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -42,6 +43,16 @@ const AdminCards = ({ channel }) => {
     }
     if (!description) {
       validationErrors.description = "Пожалуйста, введите описание канала";
+    }
+    if (!subscribers) {
+      validationErrors.subscribers =
+        "Пожалуйста, введите количество подписчиков";
+    }
+    if (!views) {
+      validationErrors.views = "Пожалуйста, введите количество просмотров";
+    }
+    if (!cpv) {
+      validationErrors.cpv = "Пожалуйста, введите цену рекламы";
     }
 
     if (Object.keys(validationErrors).length > 0) {
@@ -107,6 +118,7 @@ const AdminCards = ({ channel }) => {
     const value = event.target.value;
     setFormat(value);
   };
+
   const handleShow = (event) => {
     event.preventDefault();
     const valueToNum = parseInt(event.target.value);
@@ -114,8 +126,8 @@ const AdminCards = ({ channel }) => {
   };
   return (
     <>
-      <div className="card">
-        <div className="logo">
+      <div className="card removed-card">
+        <div className="logo removed-logo">
           <Image src={channel.avatar} alt="" width={80} height={80} />
         </div>
         <hr />
@@ -287,4 +299,4 @@ const AdminCards = ({ channel }) => {
   );
 };
 
-export default AdminCards;
+export default RemovedCard;

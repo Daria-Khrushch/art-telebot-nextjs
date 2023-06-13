@@ -36,16 +36,6 @@ const NewCard = () => {
     if (!description) {
       validationErrors.description = "Пожалуйста, введите описание канала";
     }
-    if (!subscribers) {
-      validationErrors.subscribers =
-        "Пожалуйста, введите количество подписчиков";
-    }
-    if (!views) {
-      validationErrors.views = "Пожалуйста, введите количество просмотров";
-    }
-    if (!cpv) {
-      validationErrors.cpv = "Пожалуйста, введите цену рекламы";
-    }
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);

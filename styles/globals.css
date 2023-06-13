@@ -237,6 +237,7 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+    z-index: 1;
 }
 
 .modal-content {
@@ -336,5 +337,14 @@ button[type="submit"] {
 h3{
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.removed-card{
+    background-color:#fafafa;
+    color: #ccc;
+}
+
+.removed-logo{
+    filter: grayscale(100%);
 }
 

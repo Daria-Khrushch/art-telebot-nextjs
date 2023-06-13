@@ -26,15 +26,18 @@ const Home = () => {
 
   useEffect(() => {
     const getData = async () => {
-    try {
+      try {
         const res = await fetch(
-        `/api/search/?theme=${searchTheme}&language=${searchLang}&title=${searchQuery}`
-      );
-      const data = await res.json();
-      setChannels(data);
-    } catch (error) {
-      console.log(error)
-    }
+          `/api/search/?theme=${searchTheme}&language=${searchLang}&title=${searchQuery}`
+        );
+        const data = await res.json();
+        const filteredChannels = data.filter(
+          (channel) => channel.is_shown === 1
+        );
+        setChannels(filteredChannels);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getData();
   }, [searchTitle, searchTheme, searchLang]);
@@ -76,8 +79,10 @@ const Home = () => {
         setIsViewSorted(false);
       }
     });
-
-    setChannels(sortedList);
+    const filteredChannels = sortedList.filter(
+      (channel) => channel.is_shown === 1
+    );
+    setChannels(filteredChannels);
   };
 
   const handleSortBySubs = () => {
@@ -95,7 +100,10 @@ const Home = () => {
       }
     });
 
-    setChannels(sortedList);
+     const filteredChannels = sortedList.filter(
+          (channel) => channel.is_shown === 1
+        );
+        setChannels(filteredChannels);
   };
 
   const handleSortByCpv = () => {
@@ -113,7 +121,10 @@ const Home = () => {
       }
     });
 
-    setChannels(sortedList);
+     const filteredChannels = sortedList.filter(
+          (channel) => channel.is_shown === 1
+        );
+        setChannels(filteredChannels);
   };
 
   return (
@@ -131,12 +142,11 @@ const Home = () => {
           <h2>Каналы</h2>
           <div className="filtrs">
             {/* <span className="filtrs-option">Рейтинг</span> */}
-           
             <span className="filtrs-option" onClick={handleSortBySubs}>
               Подписчики
               {isSubSorted ? (isSubSortedDesc ? "🔽" : "🔼") : ""}
             </span>
-             <span className="filtrs-option" onClick={handleSortByView}>
+            <span className="filtrs-option" onClick={handleSortByView}>
               Просмотры
               {isViewSorted ? (isViewSortedDesc ? "🔽" : "🔼") : ""}
             </span>{" "}

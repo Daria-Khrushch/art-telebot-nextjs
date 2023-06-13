@@ -6,12 +6,14 @@ import { useState, useEffect } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 import AdminCards from "@components/AdminCards";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import RemovedCard from "@components/RemovedCard";
 
 const Home = () => {
   const session = useSession();
   const [showLoader, setShowLoader] = useState(true);
   const [showNoChannel, setShowNoChannel] = useState(false);
   const [channels, setChannels] = useState([]);
+  const [removedChannels, setRemovedChannels] = useState([])
   const [searchQuery, setSearchQuery] = useState("");
   const [searchTheme, setSearchTheme] = useState("");
   const [searchLang, setSearchLang] = useState("");
@@ -25,15 +27,22 @@ const Home = () => {
 
   useEffect(() => {
     const getData = async () => {
-     try {
-       const res = await fetch(
-        `/api/search/?theme=${searchTheme}&language=${searchLang}&title=${searchQuery}`
-      );
-      const data = await res.json();
-      setChannels(data);
-     } catch (error) {
-      console.log(error)
-     }
+      try {
+        const res = await fetch(
+          `/api/search/?theme=${searchTheme}&language=${searchLang}&title=${searchQuery}`
+        );
+        const data = await res.json();
+        const filteredChannels = data.filter(
+          (channel) => channel.is_shown === 1
+        );
+        const otherChannels = data.filter(
+          (channel) => channel.is_shown === 0
+        );
+        setChannels(filteredChannels);
+        setRemovedChannels(otherChannels)
+      } catch (error) {
+        console.log(error);
+      }
     };
     getData();
   }, [searchTitle, searchTheme, searchLang]);
@@ -61,7 +70,7 @@ const Home = () => {
     setSearchLang(event.target.value);
   };
 
- const handleSortByView = () => {
+  const handleSortByView = () => {
     const sortedList = channels.slice();
     sortedList.sort((a, b) => {
       if (!isViewSorted && !isViewSortedDesc) {
@@ -76,7 +85,10 @@ const Home = () => {
       }
     });
 
-    setChannels(sortedList);
+    const filteredChannels = sortedList.filter(
+      (channel) => channel.is_shown === 1
+    );
+    setChannels(filteredChannels);
   };
 
   const handleSortBySubs = () => {
@@ -94,7 +106,10 @@ const Home = () => {
       }
     });
 
-    setChannels(sortedList);
+    const filteredChannels = sortedList.filter(
+      (channel) => channel.is_shown === 1
+    );
+    setChannels(filteredChannels);
   };
 
   const handleSortByCpv = () => {
@@ -112,7 +127,10 @@ const Home = () => {
       }
     });
 
-    setChannels(sortedList);
+    const filteredChannels = sortedList.filter(
+      (channel) => channel.is_shown === 1
+    );
+    setChannels(filteredChannels);
   };
 
   return (
@@ -129,12 +147,12 @@ const Home = () => {
         <div className="info">
           <h2>Каналы</h2>
           <div className="filtrs">
-            {/* <span className="filtrs-option">Рейтинг</span> */}  
+            {/* <span className="filtrs-option">Рейтинг</span> */}
             <span className="filtrs-option" onClick={handleSortBySubs}>
               Подписчики
               {isSubSorted ? (isSubSortedDesc ? "🔽" : "🔼") : ""}
             </span>
-              <span className="filtrs-option" onClick={handleSortByView}>
+            <span className="filtrs-option" onClick={handleSortByView}>
               Просмотры
               {isViewSorted ? (isViewSortedDesc ? "🔽" : "🔼") : ""}
             </span>{" "}
@@ -163,6 +181,13 @@ const Home = () => {
                 )}
               </>
             )}
+
+            
+            {removedChannels && removedChannels.length > 0 ? (
+               removedChannels.map((channel) => (
+                <RemovedCard key={channel.id} channel={channel} />
+              ))
+            ) : (null)}
           </>
         </ul>
       </div>
